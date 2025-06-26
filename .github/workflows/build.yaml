@@ -1,0 +1,15 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  build:
+    name: build
+    runs-on: [ self-hosted ]
+
+    steps:
+      - name: 'echo'
+        run: echo "Build"
