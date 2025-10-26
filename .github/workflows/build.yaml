@@ -19,6 +19,17 @@ jobs:
           distribution: 'temurin' # OpenJDK 사용
           java-version: '21' # JDK 21 버전 사용
 
+      - name: Setup Android SDK
+        # Android SDK 및 라이센스 설정을 위한 Action
+        uses: android-actions/setup-android@v3
+        with:
+          # 빌드에 필요한 SDK 패키지 설치
+          packages: |
+            'platform-tools'
+            'platforms;android-36'
+            'build-tools;36.1.0'
+            'cmdline-tools;latest' # 최신 커맨드 라인 툴 설치
+
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew # gradlew 스크립트에 실행 권한 부여
 
