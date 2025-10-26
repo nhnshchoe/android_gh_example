@@ -28,10 +28,10 @@ jobs:
 
       - name: Build Relase APK with Gradle
         # Gradle Wrapper를 사용하여 assembleRelease 태스크 실행
-        run: ./gradlew assembleRelease
+        run: ./gradlew assembleRelease && ls app/build/outputs/apk/release
 
       - name: Upload Release APK
         uses: actions/upload-artifact@v4 # 빌드된 APK 업로드
         with:
           name: release-apk
-          path: app/build/outputs/apk/debug/app-release.apk
+          path: app/build/outputs/apk/release/app-release.apk
