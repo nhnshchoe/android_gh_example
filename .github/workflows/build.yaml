@@ -23,7 +23,7 @@ jobs:
         # Android SDK 및 라이센스 설정을 위한 Action
         uses: android-actions/setup-android@v3
 
-      - name: Set up signing environment variables
+      - name: Setup signing environment variables
         shell: bash
         run: |
           echo "KEYSTORE_BASE64=${{ secrets.KEYSTORE_BASE64 }}" >> $GITHUB_ENV
