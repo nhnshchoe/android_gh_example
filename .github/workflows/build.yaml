@@ -28,7 +28,7 @@ jobs:
 
       - name: Build Debug APK with Gradle
         # Gradle Wrapper를 사용하여 assembleDebug 태스크 실행
-        run: ./gradlew assembleDebug
+        run: ./gradlew assembleRelease
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4 # 빌드된 APK 업로드
