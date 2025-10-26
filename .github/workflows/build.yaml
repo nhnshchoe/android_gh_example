@@ -1,9 +1,9 @@
 name: Android Build
 
 on:
-  push:
+  pull_request:
     branches:
-      - main
+      - develop # 'develop' 브랜치에 'pull_request' 이벤트가 발생하면 빌드
 
 jobs:
   build:
