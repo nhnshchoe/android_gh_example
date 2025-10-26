@@ -28,9 +28,9 @@ android {
             val keyPass = System.getenv("KEY_PASSWORD")
 
             if (keystoreBase64 != null && storePass != null && keyAliasName != null && keyPass != null) {
-                val keystoreFile = File(project.layout.buildDirectory.asFile.get(), "release-key.jks")
+                val buildDir = project.layout.buildDirectory.asFile.get().apply { mkdirs() }
+                val keystoreFile = File(buildDir, "release-key.jks")
                 if (keystoreFile.exists().not()) {
-                    keystoreFile.mkdirs()
                     keystoreFile.createNewFile()
                 }
                 val decodedBytes = Base64.getDecoder().decode(keystoreBase64)
