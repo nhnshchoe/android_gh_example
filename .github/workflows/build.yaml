@@ -7,6 +7,10 @@ on:
 
 jobs:
   call-build:
+    permissions:
+      checks: write # Checks, PR에 메시지 등록 권한
+      pull-requests: write
+
     # 재사용 가능한 워크플로를 호출
     uses: ./.github/workflows/reusable-build.yaml
     with:
