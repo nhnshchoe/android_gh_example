@@ -1,3 +1,5 @@
+import java.util.Base64
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -18,6 +20,33 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        create("release") {
+            val keystoreBase64 = System.getenv("KEYSTORE_BASE64")
+            val storePass = System.getenv("KEYSTORE_PASSWORD")
+            val keyAliasName = System.getenv("KEY_ALIAS")
+            val keyPass = System.getenv("KEY_PASSWORD")
+
+            if (keystoreBase64 != null && storePass != null && keyAliasName != null && keyPass != null) {
+                val buildDir = project.layout.buildDirectory.asFile.get().apply { mkdirs() }
+                val keystoreFile = File(buildDir, "release-key.jks")
+                if (keystoreFile.exists().not()) {
+                    keystoreFile.createNewFile()
+                }
+                val decodedBytes = Base64.getDecoder().decode(keystoreBase64)
+                keystoreFile.writeBytes(decodedBytes)
+
+                storeFile = keystoreFile
+                storePassword = storePass
+                keyAlias = keyAliasName
+                keyPassword = keyPass
+
+            } else {
+                logger.warn("Release signing configuration variables (KEYSTORE_BASE64, KEYSTORE_PASSWORD, etc.) are not set.")
+            }
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -25,8 +54,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
