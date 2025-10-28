@@ -21,7 +21,10 @@ on:
 
 jobs:
   build:
-    runs-on: [ runner1, runner2 ] # Runner 이름으로 Workflow를 수행할 Runner 선택
+    strategy:
+      matrix:
+        runner: [ runner1, runner2 ] # 사용할 러너 레이블 목록 정의
+    runs-on: ${{ matrix.runner }}  # matrix를 사용하여 각 job을 개별 러너에 할당
 
     steps:
       - name: Checkout
