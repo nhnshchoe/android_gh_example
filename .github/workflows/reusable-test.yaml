@@ -8,20 +8,13 @@ on:
       git_ref:
         required: true
         type: string
-    secrets:
-      # 빌드에 필요한 시크릿들을 호출하는 Workflow로부터 받음
-      KEYSTORE_BASE64:
-        required: true
-      KEYSTORE_PASSWORD:
-        required: true
-      KEY_ALIAS:
-        required: true
-      KEY_PASSWORD:
-        required: true
 
 jobs:
   build:
     runs-on: runner1 # Runner 이름으로 Workflow를 수행할 Runner 선택
+    permissions:
+      checks: write # Checks, PR에 메시지 등록 권한
+      pull-requests: write
 
     steps:
       - name: Checkout
@@ -39,23 +32,21 @@ jobs:
         # Android SDK 및 라이센스 설정을 위한 Action
         uses: android-actions/setup-android@v3
 
-      - name: Setup signing environment variables
-        shell: bash
-        run: |
-          echo "KEYSTORE_BASE64=${{ secrets.KEYSTORE_BASE64 }}" >> $GITHUB_ENV
-          echo "KEYSTORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> $GITHUB_ENV
-          echo "KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> $GITHUB_ENV
-          echo "KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> $GITHUB_ENV
-
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew # gradlew 스크립트에 실행 권한 부여
 
-      - name: Build Release APK with Gradle
-        # Gradle Wrapper를 사용하여 assembleRelease 태스크 실행
-        run: ./gradlew assembleRelease
+      - name: Test
+        # Gradle Wrapper를 사용하여 testRelease 태스크 실행
+        run: ./gradlew testRelease
 
-      - name: Upload Release APK
-        uses: actions/upload-artifact@v4 # 빌드된 APK 업로드
+      - name: Setup Python
+        uses: actions/setup-python@v6
         with:
-          name: release-apk
-          path: app/build/outputs/apk/release/app-release.apk
+          python-version: '3.13'
+
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action/linux@v2 # 테스트 리포트 등록
+        if: (!cancelled())
+        with:
+          files: |
+            **/build/test-results/testReleaseUnitTest/**/*.xml

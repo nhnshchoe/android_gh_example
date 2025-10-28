@@ -6,14 +6,23 @@ on:
       - develop # 'develop' 브랜치에 'pull_request' 이벤트가 발생하면 빌드
 
 jobs:
-  call-build:
+  call-test:
     permissions:
       checks: write # Checks, PR에 메시지 등록 권한
       pull-requests: write
 
-    # 재사용 가능한 워크플로를 호출
+    # 재사용 가능한 test Workflow를 호출
+    uses: ./.github/workflows/reusable-test.yaml
+    with:
+      # PR의 HEAD 커밋 ref를 빌드 대상으로 전달
+      git_ref: ${{ github.pull_request.head.sha }}
+    secrets: inherit # 호출하는 Workflow의 secrets을 그대로 상속하여 전달
+
+  call-build:
+    # 재사용 가능한 build Workflow를 호출
     uses: ./.github/workflows/reusable-build.yaml
     with:
       # PR의 HEAD 커밋 ref를 빌드 대상으로 전달
       git_ref: ${{ github.pull_request.head.sha }}
-    secrets: inherit # 호출하는 워크플로의 secrets을 그대로 상속하여 전달합니다.
+    secrets: inherit # 호출하는 Workflow의 secrets을 그대로 상속하여 전달
+    
