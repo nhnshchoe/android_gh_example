@@ -11,7 +11,7 @@ on:
 
 jobs:
   test:
-    runs-on: runner1 # Runner 이름으로 Workflow를 수행할 Runner 선택
+    runs-on: [ runner1, runner2 ] # Runner label로 Workflow를 수행할 Runner 선택
     permissions:
       checks: write # Checks, PR에 메시지 등록 권한
       pull-requests: write
