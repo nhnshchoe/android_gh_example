@@ -20,6 +20,4 @@ jobs:
     with:
       # 사용자가 입력한 git_ref 값을 빌드 대상으로 전달합니다.
       git_ref: ${{ github.event.inputs.git_ref }}
-  secrets:
-    # 호출하는 워크플로의 secrets을 그대로 상속하여 전달합니다.
-    inherit
+    secrets: inherit # 호출하는 워크플로의 secrets을 그대로 상속하여 전달합니다.
