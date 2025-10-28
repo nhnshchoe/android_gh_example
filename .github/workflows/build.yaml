@@ -19,6 +19,7 @@ jobs:
     secrets: inherit # 호출하는 Workflow의 secrets을 그대로 상속하여 전달
 
   call-build:
+    needs: call-test # call-test 작업이 성공해야 이 작업을 실행
     # 재사용 가능한 build Workflow를 호출
     uses: ./.github/workflows/reusable-build.yaml
     with:
