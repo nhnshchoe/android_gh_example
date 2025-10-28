@@ -43,7 +43,7 @@ jobs:
         if: (!cancelled())
         with:
           files: |
-            test-results/**/*.xml
+            build/test-results/**/*.xml
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4 # 빌드된 APK 업로드
