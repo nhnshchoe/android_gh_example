@@ -25,4 +25,3 @@ jobs:
       # PR의 HEAD 커밋 ref를 빌드 대상으로 전달
       git_ref: ${{ github.pull_request.head.sha }}
     secrets: inherit # 호출하는 Workflow의 secrets을 그대로 상속하여 전달
-    

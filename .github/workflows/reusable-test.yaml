@@ -10,7 +10,7 @@ on:
         type: string
 
 jobs:
-  build:
+  test:
     runs-on: runner1 # Runner 이름으로 Workflow를 수행할 Runner 선택
     permissions:
       checks: write # Checks, PR에 메시지 등록 권한
@@ -39,10 +39,10 @@ jobs:
         # Gradle Wrapper를 사용하여 testRelease 태스크 실행
         run: ./gradlew testRelease
 
-      - name: Setup Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: '3.13'
+#      - name: Setup Python
+#        uses: actions/setup-python@v6
+#        with:
+#          python-version: '3.13'
 
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action/linux@v2 # 테스트 리포트 등록
