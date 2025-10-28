@@ -8,6 +8,9 @@ on:
 jobs:
   build:
     runs-on: runner1 # Runner 이름으로 Workflow를 수행할 Runner 선택
+    permissions:
+      checks: write
+      pull-requests: write
 
     steps:
       - name: Checkout
@@ -41,7 +44,7 @@ jobs:
 #      - name: Setup Python
 #        uses: actions/setup-python@v6
 #        with:
-#          python-version: '3.14'
+#          python-version: '3.13'
 
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action/linux@v2
