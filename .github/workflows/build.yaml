@@ -47,11 +47,11 @@ jobs:
 #          python-version: '3.13'
 
       - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action/linux@v2
+        uses: EnricoMi/publish-unit-test-result-action/linux@v2 # 테스트 리포트 등록
         if: (!cancelled())
         with:
           files: |
-            build/test-results/**/*.xml
+            **/build/test-results/**/*.xml
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4 # 빌드된 APK 업로드
