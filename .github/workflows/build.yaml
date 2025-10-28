@@ -39,7 +39,7 @@ jobs:
         run: ./gradlew testDebug assembleDebug
 
       - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2
+        uses: EnricoMi/publish-unit-test-result-action/linux@v2
         if: (!cancelled())
         with:
           files: |
